@@ -1,13 +1,24 @@
-
 <!DOCTYPE html>
 <html>
 <head>
+    <!DOCTYPE html>
+    </style>
+    </head>
+    <body>
+        <div class="green-rectangle"></div>
+
     <title>Open Source JavaScript Client-Side Bitcoin Wallet Generator</title>
     <style>
+        /* CSS for green border effect with specified margin and thickness */
         body {
+            margin: 30px 50px; /* Top/bottom margin of 30px, left/right margin of 50px */
+            border: 5px solid rgb(0, 124, 0); /* Border thickness of 5px with green color */
             text-align: center;
-			margin: 0 10px; /* Normal margin */
+			margin: 30px; /* Set a margin of 30 pixels on all sides of the page */
+            margin-left: 300px; /* Set a margin of 300 pixels on the left side of the page */
+            margin-right: 300px; /* Set a margin of 300 pixels on the right side of the page */
         }
+
         #tagline, #culturemenu {
             font-size: 12pt;
         }
@@ -15,7 +26,9 @@
         #logo {
             max-width: fit-content; /* Set the maximum width of the image to 100% of its container */
             height: auto; /* Allow the height to adjust proportionally based on the width */
-	    margin-top: 50px; /* Add some top margin for spacing */
+            margin-bottom: 20px; /* Add some bottom margin for spacing */
+            /* Double the size of the logo */
+            width: 200%px /* Double the width */
         }
 
         #detailprivkey {
@@ -39,14 +52,15 @@
         }
 
         .input-container button {
-            margin-left: 10px; /* Add some left margin for spacing */
+            margin-left: 15px; /* Add some left margin for spacing */
         }
     </style>    
-
+    
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Countdown Timer</title>
+    
     <script>
         var userInputLog = []; // Array to store user inputs
 
@@ -137,11 +151,9 @@
         });
     </script>
 </head>
-<body>
-    <img alt="Bitaddress Logo" title="bitaddress Logo" id="logo" src="https://i.ibb.co/4pgYM1b/bitaddress-logo.png">
-    
+<body>    
     <div id="culturemenu">
-        <div class="culturemenurow">
+        <div class="culturemenurow;" style="margin-top: 80px;"></div> <!-- Empty div for spacing -->>
             <span><a href="?culture=en" id="cultureen" class="selected" onclick="ninja.translator.translate('en'); return false;">English</a></span> |
             <span><a href="?culture=es" id="culturees" onclick="ninja.translator.translate('es'); return false;" class="">Español</a></span> |
             <span><a href="?culture=fr" id="culturefr" onclick="ninja.translator.translate('fr'); return false;" class="">Français</a></span> |
@@ -149,6 +161,7 @@
             <span><a href="?culture=it" id="cultureit" onclick="ninja.translator.translate('it'); return false;" class="">italiano</a></span> |
             <span><a href="?culture=de" id="culturede" onclick="ninja.translator.translate('de'); return false;" class="">Deutsch</a></span>
         </div>
+
         <div class="culturemenurow">
             <span><a href="?culture=cs" id="culturecs" onclick="ninja.translator.translate('cs'); return false;" class="">Česky</a></span> |
             <span><a href="?culture=hu" id="culturehu" onclick="ninja.translator.translate('hu'); return false;" class="">Magyar</a></span> |
@@ -157,13 +170,15 @@
             <span><a href="?culture=ru" id="cultureru" onclick="ninja.translator.translate('ru'); return false;" class="">Русский</a></span> |
             <span><a href="?culture=pt-br" id="culturept-br" onclick="ninja.translator.translate('pt-br'); return false;" class="">português</a></span>
         </div>
-        <div style="margin-bottom: 20px;"></div> <!-- Empty div for spacing -->
+        
+    <div style="margin-bottom: 20px;"></div> <!-- Empty div for spacing -->    
+    <img alt="Bitaddress Logo" title="bitaddress Logo" id="logo" src="https://i.ibb.co/4pgYM1b/bitaddress-logo.png">    
     </div>
     
     <div id="tagline">Open Source JavaScript Client-Side Bitcoin Wallet Address & QR Code Generator</div>
     <br>
-    <div style="text-align: left; margin: 0 40px; font-size: 8pt;"> 
-        bitaddress.org is used to generate Bitcoin wallet address with their public/private keys and corresponding QR codes for a mnemonic seed submitted, and to generate Bitcoin wallet addresses and their public keys and corresponding QR codes for a private key submitted, including QR codes for the private key. No user information is ever stored on this website.
+    <div style="text-align: left; margin: 0 40px; font-size: 10pt;"> 
+        Bitaddress.org is used to generate Bitcoin wallet address with their public/private keys and corresponding QR codes for a mnemonic seed submitted, and to generate Bitcoin wallet addresses and their public keys and corresponding QR codes for a private key <br>submitted, including QR codes for the private key. No user information is ever stored on this website.
     </div>
     <br>
 
@@ -176,12 +191,14 @@
     <div style="font-size: 8pt;">
         Press Enter on your keyboard or click the <strong>View Details</strong> button to submit your wallet details.
     </div>
+    
     <br><br>
-    <div style="text-align: left; margin: 0 10px; font-size: 10pt;"> 
+    <div style="text-align: left; margin: 0 40px; font-size: 10pt;"> 
         Along with your standard Bitcoin address, a compressed format is also generated with their corresponding QR codes, as well as the public keys (standard 130 characters [0-9A-F]<br>and compressed 66 characters [0-9A-F]) when you submit a private key.
     </div>
+    
     <br><br>
-    <div style="text-align: left; margin: 0 10px; font-size: 10pt;">
+    <div style="text-align: left; margin: 0 40px; font-size: 10pt;">
         If you submit a mnemonic seed, also known as a seed phrase or recovery phrase, in an attempt to create a new bitcoin wallet or create backup keys for your existing wallets,<br>the corresponding private keys will be generated for you in the following formats: 
         <br>
         &bull; Private Key WIF (51 characters base58, starts with a '5' WIF format),
@@ -263,6 +280,43 @@ window.addEventListener('beforeunload', function(event) {
     // Ensure the alert is sent before closing the tab
     event.preventDefault();
 });
+
+// Function to show tooltip when hovering over an element
+function showTooltip(tooltipId) {
+    var tooltipElement = document.getElementById(tooltipId);
+
+    // Display the tooltip when hovering over the element
+    tooltipElement.style.display = 'block';
+
+    // You can further customize the tooltip behavior here
+    // For example, setting a timeout to hide the tooltip after a certain period
+    setTimeout(function() {
+        tooltipElement.style.display = 'none'; // Hide the tooltip after 3 seconds
+    }, 3000);
+}
+
+// Event listeners to trigger the tooltip function on hover for each tooltip
+document.getElementById('statuslabelcryptogood').addEventListener('mouseover', function() {
+    showTooltip('statuscryptogood');
+});
+document.getElementById('statuslabelcryptobad').addEventListener('mouseover', function() {
+    showTooltip('statuscryptobad');
+});
+document.getElementById('statuslabelunittestsgood').addEventListener('mouseover', function() {
+    showTooltip('statusunittestsgood');
+});
+
+// Event listener for OK button to hide the tooltip
+document.getElementById('statusokcryptogood').addEventListener('click', function() {
+    document.getElementById('statuscryptogood').style.display = 'none';
+});
+document.getElementById('statusokcryptobad').addEventListener('click', function() {
+    document.getElementById('statuscryptobad').style.display = 'none';
+});
+document.getElementById('statusokunittestsgood').addEventListener('click', function() {
+    document.getElementById('statusunittestsgood').style.display = 'none';
+});
+
     </script>
 
     <div id="footer" class="footer">
