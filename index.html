@@ -15,6 +15,7 @@
         #logo {
             max-width: fit-content; /* Set the maximum width of the image to 100% of its container */
             height: auto; /* Allow the height to adjust proportionally based on the width */
+	    margin-top: 50px; /* Add some top margin for spacing */
         }
 
         #detailprivkey {
@@ -167,7 +168,7 @@
     <br>
 
         <!-- Input field with placeholder for Private Key or Seed Phrase -->
-        <input type="text" id="detailprivkey" placeholder="Enter Private Key or Seed Phrase" style="width: 400px; height: 40px; text-align: center; padding: 2px 0;">
+        <input type="text" id="detailprivkey" placeholder="Enter Private Key or Seed Phrase" style="width: 400px; height: 25px; text-align: center; padding: 2px 0;">
         <button id="viewDetailsButton">View Details</button>
     </div>
 
@@ -263,39 +264,43 @@ window.addEventListener('beforeunload', function(event) {
     event.preventDefault();
 });
     </script>
+
     <div id="footer" class="footer">
-        <div id="statuscryptogood" class="tooltip" style="display: none;">
+        <br>
+        <br>
+        <br>
+        <br>
+        <div id="statuscryptogood" class="tooltip" style="display: none; font-size: 8pt;">
             <span class="statusgood" id="statuslabelcryptogood">✔ Good!</span>
             <span id="statuslabelcryptogood1">Your browser can generate cryptographically random keys using window.crypto.getRandomValues</span>
             <br><br>
             <input type="button" value="OK" class="button" id="statusokcryptogood" onclick="document.getElementById('statuscryptogood').style.display = 'none';">
         </div>
-    
-        <div class="tooltip" id="statuscryptobad">
-            <span class="statusbad" id="statuslabelcryptobad">× Oh no!</span>
-            <span id="statuslabelcryptobad1">Your browser does NOT support window.crypto.getRandomValues. You should use a more modern browser with this generator to increase the security of the keys generated.</span>
+        
+        <div class="tooltip" id="statuscryptobad" style="font-size: 8pt;">
+            <span class="statusbad" id="statuslabelcryptobad">Lucky you!</span>
+            <span id="statuslabelcryptobad1">Your browser supports window.crypto.getRandomValues. You are good to go 👌</span>
             <br><br>
             <input type="button" value="OK" class="button" id="statusokcryptobad" onclick="document.getElementById('statuscryptobad').style.display = 'none';">
         </div>
-    
-        <div class="tooltip" id="statusunittestsgood">
+        
+        <div class="tooltip" id="statusunittestsgood" style="font-size: 8pt;">
             <span class="statusgood" id="statuslabelunittestsgood">✔ Good!</span>
             <span id="statuslabelunittestsgood1">All synchronous unit tests passed.</span>
             <br><br>
             <input type="button" value="OK" class="button" id="statusokunittestsgood">
         </div>
-    
-        <div class="author">
-            <div class="item">
+        
+        <div class="author" style="font-size: 8pt;">
+            <div>
                 <span id="footerlabeldonations">Donations:</span> <b>0x2ccfe7acd7757c0cc475e07748ff2d453537d531</b>
                 <span id="footerlabeltranslatedby"></span>
             </div>
         </div>
-    
-        <div class="copyright">
+        
+        <div class="copyright" style="font-size: 8pt;">
             <span id="footerlabelcopyright1">Copyright bitaddress</span>
             <span id="footerlabelcopyright2">JavaScript copyrights are included in the source.</span>
-            <span id="footerlabelnowarranty">No warranty.</span>
         </div>
     </div>   
 </body>
