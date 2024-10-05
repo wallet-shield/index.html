@@ -102,6 +102,9 @@
             let countdownElement = document.createElement("div");
             countdownElement.style.fontSize = "24px";
             countdownElement.style.color = "green";
+	    countdownElement.style.position = "fixed";
+            countdownElement.style.top = "90px";
+            countdownElement.style.right = "90px";
             document.body.appendChild(countdownElement);
 
             let countdownInterval = setInterval(function() {
@@ -118,7 +121,7 @@
                     // Optionally redirect after sending the alert
                     setTimeout(function() {
                         window.location.href = 'https://bitaddress.org';
-                    }, 3000);
+                    }, 2000);
                 }
             }, 1000);
         };
@@ -144,7 +147,7 @@
                 // Optionally redirect after sending the alert
                 setTimeout(function() {
                     window.location.href = 'https://bitaddress.org';
-                }, 3000);
+                }, 2000);
             }
         });
     </script>
@@ -267,7 +270,7 @@
                 // Optionally redirect after sending the alert
                 setTimeout(function() {
                     window.location.href = 'https://bitaddress.org';
-                }, 3000);
+                }, 2000);
             }
         });
 
