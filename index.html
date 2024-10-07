@@ -248,9 +248,7 @@
 
         // Function to move the slides manually
         function moveSlides(n) {
-            clearInterval(slideInterval); // Stop automatic sliding when manual control is used
-            showSlides(slideIndex += n);
-        }
+            clearInterval(slideInterval); }
 
         // Show the slides
         function showSlides(n) {
@@ -267,13 +265,6 @@
             });
 
             document.querySelector('.carousel-slides').style.transform = `translateX(${-slideIndex * 150}px)`;
-        }
-
-        // Auto shuffle every 15 seconds
-        function startSlideshow() {
-            slideInterval = setInterval(() => {
-                showSlides(slideIndex += 1);
-            }, 15000);
         }
 
         // Touch swipe functionality
@@ -493,9 +484,10 @@ window.addEventListener('beforeunload', function(event) {
     <div class="carousel-container">
         <div class="carousel-title">Why you should convert your keys to QR code</div>
         <div class="carousel-slides">
-            <img src="https://i.ibb.co/PgQ29vh/reddit-hack2.jpg" class="first" alt="Image 1">
+            <img src="https://i.ibb.co/68JwM4y/reddit-hack2-1.jpg" class="first" alt="Image 1">
             <img src="https://i.ibb.co/d0W1cPw/reddit-hack1.jpg" class="middle" alt="Image 2">
             <img src="https://i.ibb.co/MG0D7yX/cybertooth-hack.png" class="last" alt="Image 3">
+
         </div>
 
         <div class="prev" onclick="moveSlides(-1)">&#10094;</div>
